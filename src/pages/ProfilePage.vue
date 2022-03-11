@@ -1,7 +1,14 @@
 <template>
-  <div class="container-fluid">
+  <div class="profile-page container-fluid">
     <div class="row d-flex align-items-start justify-content-center">
       <div class="col-md-9">
+        <div class="row">
+          <div class="col-10 offset-1">
+            <div class="bg-white rounded shadow my-3 py-2">
+              {{ activeProfile.name }}
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-10 offset-1" v-for="p in posts" :key="p.id">
             <Post :post="p" />
@@ -42,57 +49,39 @@
   </div>
 </template>
 
+
 <script>
-import { computed } from "@vue/reactivity";
-import { AppState } from "../AppState";
+import { computed, ref } from "@vue/reactivity";
+import Pop from "../utils/Pop";
+import { logger } from "../utils/Logger";
 import { onMounted } from "@vue/runtime-core";
-import { postsService } from "../services/PostsService";
+import { AppState } from "../AppState";
 import { billboardsService } from "../services/BillboardsService";
+import { profilesService } from "../services/ProfilesService";
+import { useRoute } from "vue-router";
 export default {
-  name: "Home",
   setup() {
+    const route = useRoute();
     onMounted(async () => {
       try {
-        await postsService.getPosts();
         await billboardsService.getBillboards();
+        await profilesService.getProfile(route.params.id);
+        await profilesService.getProfilePosts(route.params.id);
       } catch (error) {
         logger.error(error);
         Pop.toast(error.message, "error");
       }
     });
     return {
-      postsObject: computed(() => AppState.postsObject),
-      posts: computed(() => AppState.posts),
+      activeProfile: computed(() => AppState.activeProfile),
       billboards: computed(() => AppState.billboards),
-      async changePage(num) {
-        try {
-          await postsService.changePage(num);
-        } catch (error) {
-          logger.error(error);
-          Pop.toast(error.message, "error");
-        }
-      },
+      posts: computed(() => AppState.posts),
+      postsObject: computed(() => AppState.postsObject),
     };
   },
 };
 </script>
 
-<style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-  .home-card {
-    width: 50vw;
-    > img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
-}
+
+<style lang="scss" scoped>
 </style>

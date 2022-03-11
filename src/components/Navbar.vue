@@ -33,6 +33,22 @@
           </router-link>
         </li>
       </ul>
+      <form class="input-group w-25" @submit.prevent="search">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search..."
+          v-model="editable"
+        />
+        <button
+          class="btn btn-secondary"
+          type="button"
+          id="button-addon2"
+          title="Search"
+        >
+          <i class="mdi mdi-magnify"></i>
+        </button>
+      </form>
       <span class="navbar-text">
         <button
           class="
@@ -94,11 +110,23 @@
 <script>
 import { AuthService } from "../services/AuthService";
 import { AppState } from "../AppState";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { postsService } from "../services/PostsService";
 export default {
   setup() {
+    const editable = ref("");
     return {
+      editable,
       user: computed(() => AppState.user),
+      async search() {
+        try {
+          await postsService.getPosts(editable.value);
+          editable.value = "";
+        } catch (error) {
+          logger.error(error);
+          Pop.toast(error.message, "error");
+        }
+      },
       async login() {
         AuthService.loginWithPopup();
       },
