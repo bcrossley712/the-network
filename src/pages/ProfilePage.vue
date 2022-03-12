@@ -5,7 +5,15 @@
         <div class="row">
           <div class="col-10 offset-1">
             <div class="bg-white rounded shadow my-3 py-2">
-              {{ activeProfile.name }}
+              <div class="">
+                <img
+                  class="rounded-circle img-picture"
+                  :src="activeProfile.picture"
+                  alt=""
+                />
+              </div>
+              <h2>{{ activeProfile.class }}</h2>
+              <h3>{{ activeProfile.name }}</h3>
             </div>
           </div>
         </div>
@@ -77,6 +85,7 @@ export default {
       billboards: computed(() => AppState.billboards),
       posts: computed(() => AppState.posts),
       postsObject: computed(() => AppState.postsObject),
+      profileBgImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
     };
   },
 };
@@ -84,4 +93,14 @@ export default {
 
 
 <style lang="scss" scoped>
+.img-picture {
+  height: 180px;
+  width: 180px;
+  transform: translateY(90px);
+}
+.img-bg {
+  background-image: v-bind(profileBgImg);
+  border-top-left-radius: 1px;
+  border-top-right-radius: 1px;
+}
 </style>
