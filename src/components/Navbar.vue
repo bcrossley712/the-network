@@ -33,7 +33,7 @@
           </router-link>
         </li>
       </ul>
-      <form class="input-group w-25" @submit.prevent="search">
+      <form class="input-group w-25 pe-2" @submit.prevent="search">
         <input
           type="text"
           class="form-control"
@@ -84,9 +84,9 @@
             class="dropdown-menu p-0 list-group w-100"
             aria-labelledby="authDropdown"
           >
-            <router-link :to="{ name: 'Account' }">
+            <router-link :to="{ name: 'Profile', params: { id: account.id } }">
               <div class="list-group-item list-group-item-action hoverable">
-                Manage Account
+                My Profile
               </div>
             </router-link>
             <div
@@ -117,6 +117,7 @@ export default {
     const editable = ref("");
     return {
       editable,
+      account: computed(() => AppState.account),
       user: computed(() => AppState.user),
       async search() {
         try {

@@ -2,12 +2,12 @@
   <header class="sticky-top">
     <Navbar />
   </header>
-  <main class="container-fluid m-0 h-100 flex-column d-flex">
-    <div class="row h-100 flex-grow-1">
-      <div class="col-md-3 p-0 m-0">
+  <main class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 col-xl-2 mobile">
         <Sidebar />
       </div>
-      <div class="col-md-9 p-0">
+      <div class="col-12 col-md-9 col-xl-10 p-0">
         <router-view />
       </div>
     </div>
@@ -28,4 +28,13 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+.sidebar {
+  height: 100vh;
+  position: fixed;
+}
+@media only screen and (max-width: 768px) {
+  .mobile {
+    display: none;
+  }
+}
 </style>

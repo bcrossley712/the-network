@@ -13,6 +13,7 @@ class ProfilesService {
     logger.log('[getProfilePosts]', res.data)
     AppState.postsObject = res.data
     AppState.posts = res.data.posts
+
   }
 }
 export const profilesService = new ProfilesService()
