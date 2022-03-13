@@ -9,10 +9,15 @@
                 <img
                   class="rounded-circle img-picture ms-3"
                   :src="activeProfile.picture"
-                  alt=""
+                  alt="Profile pic"
                 />
               </div>
               <div class="my-4 text-end">
+                <i
+                  class="fas fa-graduation-cap fs-1 pe-4"
+                  title="Graduated"
+                  v-if="profile.graduated"
+                ></i>
                 <a
                   :href="profile.linkedin"
                   v-if="profile.linkedin"
@@ -26,7 +31,7 @@
                   class="px-2 selectable fs-2 mdi mdi-github text-primary"
                 ></a>
                 <a
-                  href="mailto:{{profile.email}}"
+                  :href="`mailto: ${profile.email}`"
                   v-if="profile.email"
                   :title="profile.email"
                   class="px-2 selectable fs-2 mdi mdi-email text-primary"
@@ -207,10 +212,14 @@ export default {
   border: none;
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .img-picture {
+    transform: translateY(90px);
+  }
+}
 .img-picture {
   height: 180px;
   width: 180px;
-  transform: translateY(90px);
 }
 .img-bg {
   background-image: v-bind(profileBgImg);

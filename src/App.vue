@@ -4,10 +4,10 @@
   </header>
   <main class="container-fluid">
     <div class="row">
-      <div class="col-md-3 col-xl-2 mobile">
+      <div class="col-lg-3 col-xl-2 mobile">
         <Sidebar />
       </div>
-      <div class="col-12 col-md-9 col-xl-10 p-0">
+      <div class="col-12 col-lg-9 col-xl-10 p-0">
         <router-view />
       </div>
     </div>
@@ -32,7 +32,7 @@ export default {
   height: 100vh;
   position: fixed;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .mobile {
     display: none;
   }

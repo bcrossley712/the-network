@@ -9,7 +9,7 @@
           alt=""
         />
         <div class="p-2 ms-3">
-          <b class="mb-1">{{ post.creator?.name }}</b>
+          <b class="mb-1 text-break">{{ post.creator?.name }}</b>
           <p class="mt-1">{{ date }} {{ post.graduated }}</p>
         </div>
       </div>

@@ -24,14 +24,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
-        <li>
+        <!-- <li>
           <router-link
             :to="{ name: 'Home' }"
             class="btn text-success lighten-30 selectable text-uppercase"
           >
             Home
           </router-link>
-        </li>
+        </li> -->
       </ul>
       <form class="input-group w-25 pe-2" @submit.prevent="search">
         <input
@@ -50,7 +50,7 @@
         </button>
       </form>
       <span class="navbar-text">
-        <button
+        <!-- <button
           class="
             btn
             selectable
@@ -63,9 +63,9 @@
           v-if="!user.isAuthenticated"
         >
           Login
-        </button>
+        </button> -->
 
-        <div class="dropdown my-2 my-lg-0" v-else>
+        <div class="dropdown my-2 my-lg-0" v-if="user.isAuthenticated">
           <div
             class="dropdown-toggle selectable"
             data-bs-toggle="dropdown"
@@ -128,9 +128,9 @@ export default {
           Pop.toast(error.message, "error");
         }
       },
-      async login() {
-        AuthService.loginWithPopup();
-      },
+      // async login() {
+      //   AuthService.loginWithPopup();
+      // },
       async logout() {
         AuthService.logout({ returnTo: window.location.origin });
       },
