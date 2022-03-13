@@ -112,8 +112,12 @@ import { AuthService } from "../services/AuthService";
 import { AppState } from "../AppState";
 import { computed, ref } from "vue";
 import { postsService } from "../services/PostsService";
+import { useRouter } from "vue-router";
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
 export default {
   setup() {
+    const router = useRouter();
     const editable = ref("");
     return {
       editable,
@@ -122,6 +126,7 @@ export default {
       async search() {
         try {
           await postsService.getPosts(editable.value);
+          router.push({ name: "Search" });
           editable.value = "";
         } catch (error) {
           logger.error(error);

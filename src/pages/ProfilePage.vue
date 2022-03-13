@@ -62,80 +62,16 @@
           </div>
         </div>
         <!-- Start CreatePostForm -->
-        <div class="row" v-if="account.id == profile.id">
-          <div class="col-10 offset-1">
-            <div class="bg-white rounded shadow my-3 py-2">
-              <div class="p-2 d-flex">
-                <img
-                  class="img-small rounded-circle"
-                  :src="profile.picture"
-                  alt=""
-                />
-                <form @submit.prevent="handleSubmit" class="w-100 m-3">
-                  <div class="p-1 borderMe w-100">
-                    <input
-                      class="inputMe align-items-start d-flex"
-                      type="text"
-                      v-model="editable.body"
-                      placeholder="Tell us what's on your mind..."
-                    />
-                  </div>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <div class="mt-1 d-flex w-75">
-                      <label for="image" class="form-label">Add Image:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="image"
-                        id="image"
-                        v-model="editable.imgUrl"
-                        placeholder="Image Url..."
-                      />
-                    </div>
-                    <div class="selectable">
-                      <button class="btn">
-                        <i class="mdi mdi-send px-2" title="Post"></i>Post
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CreatePostForm />
         <!-- End Form -->
         <div class="row">
           <div class="col-10 offset-1" v-for="p in posts" :key="p.id">
             <Post :post="p" />
           </div>
-          <!-- Start PageChangeForm -->
-          <div class="row mb-3">
-            <div class="col-5 text-end">
-              <button
-                class="btn btn-outline-secondary"
-                :disabled="postsObject.newer === null"
-                @click="changePage(-1)"
-              >
-                Previous
-              </button>
-            </div>
-            <div class="col-2 d-flex align-items-center justify-content-center">
-              {{ postsObject.page }}
-            </div>
-            <div class="col-5">
-              <button
-                class="btn btn-outline-secondary"
-                :disabled="postsObject.older === null"
-                @click="changePage(1)"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-          <!-- End -->
         </div>
+        <!-- Start PageChangeForm -->
+        <PageChangeForm />
+        <!-- End -->
       </div>
       <div class="col-md-3">
         <div class="row">
@@ -154,18 +90,16 @@
 
 
 <script>
-import { computed, ref } from "@vue/reactivity";
+import { computed } from "@vue/reactivity";
 import Pop from "../utils/Pop";
 import { logger } from "../utils/Logger";
-import { onMounted, watchEffect } from "@vue/runtime-core";
+import { watchEffect } from "@vue/runtime-core";
 import { AppState } from "../AppState";
 import { billboardsService } from "../services/BillboardsService";
 import { profilesService } from "../services/ProfilesService";
 import { useRoute } from "vue-router";
-import { postsService } from "../services/PostsService";
 export default {
   setup() {
-    const editable = ref({});
     const route = useRoute();
     watchEffect(async () => {
       try {
@@ -180,23 +114,12 @@ export default {
       }
     });
     return {
-      editable,
       account: computed(() => AppState.account),
       activeProfile: computed(() => AppState.activeProfile),
       billboards: computed(() => AppState.billboards),
       posts: computed(() => AppState.posts),
-      postsObject: computed(() => AppState.postsObject),
       profile: computed(() => AppState.activeProfile),
       profileBgImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
-      async handleSubmit() {
-        try {
-          await postsService.createPost(editable.value);
-          editable.value = {};
-        } catch (error) {
-          logger.error(error);
-          Pop.toast(error.message, "error");
-        }
-      },
     };
   },
 };
@@ -204,14 +127,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.borderMe {
-  border: dashed;
-  min-height: 150px;
-}
-.inputMe {
-  border: none;
-  width: 100%;
-}
 @media only screen and (min-width: 768px) {
   .img-picture {
     transform: translateY(90px);

@@ -6,30 +6,8 @@
           <div class="col-10 offset-1" v-for="p in posts" :key="p.id">
             <Post :post="p" />
           </div>
-          <div class="row mb-3">
-            <div class="col-5 text-end">
-              <button
-                class="btn btn-outline-secondary"
-                :disabled="postsObject.newer === null"
-                @click="changePage(-1)"
-              >
-                Previous
-              </button>
-            </div>
-            <div class="col-2 d-flex align-items-center justify-content-center">
-              {{ postsObject.page }}
-            </div>
-            <div class="col-5">
-              <button
-                class="btn btn-outline-secondary"
-                :disabled="postsObject.older === null"
-                @click="changePage(1)"
-              >
-                Next
-              </button>
-            </div>
-          </div>
         </div>
+        <PageChangeForm />
       </div>
       <div class="col-md-3">
         <div class="row">
@@ -48,6 +26,8 @@ import { AppState } from "../AppState";
 import { onMounted } from "@vue/runtime-core";
 import { postsService } from "../services/PostsService";
 import { billboardsService } from "../services/BillboardsService";
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
 export default {
   name: "Home",
   setup() {

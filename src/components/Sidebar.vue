@@ -9,43 +9,48 @@
             alt=""
           />
         </div>
-        <div class="ps-4">
+        <i
+          class="fas fa-graduation-cap fs-1 pe-4 d-flex justify-content-end"
+          title="Graduated"
+          v-if="profile.graduated"
+        ></i>
+        <div class="">
           <h5>{{ profile.class }}</h5>
           <h3>{{ profile.name }}</h3>
-          <div v-if="profile.linkedin" class="d-flex align-items-center">
-            <a
-              :href="profile.linkedin"
-              class="mdi mdi-linkedin fs-1 selectable text-primary"
-              :title="profile.linkedin"
-            ></a>
-            <b>LinkedIn</b>
+          <div class="d-flex justify-content-around">
+            <div v-if="profile.linkedin" class="d-flex align-items-center">
+              <a
+                :href="profile.linkedin"
+                class="mdi mdi-linkedin fs-1 selectable text-primary"
+                :title="profile.linkedin"
+              ></a>
+            </div>
+            <div v-if="profile.github" class="d-flex align-items-center">
+              <a
+                :href="profile.github"
+                class="mdi mdi-github fs-1 selectable text-primary"
+                :title="profile.github"
+              ></a>
+            </div>
           </div>
-          <div v-if="profile.github" class="d-flex align-items-center">
-            <a
-              :href="profile.github"
-              class="mdi mdi-github fs-1 selectable text-primary"
-              :title="profile.github"
-            ></a>
-            <b>Github</b>
-          </div>
-          <div v-if="profile.email" class="d-flex align-items-center">
-            <a
-              :href="`mailto: ${profile.email}`"
-              class="mdi mdi-email fs-1 selectable text-primary"
-              :title="profile.email"
-            ></a>
-            <b>Email</b>
-          </div>
-          <div v-if="profile.resume" class="py-2">
-            <a :href="profile.resume">
-              <img
-                src="../assets/img/resume.png"
-                class="icon selectable ps-1"
-                :title="profile.resume"
-                alt=""
-              />
-            </a>
-            <b> Resume </b>
+          <div class="d-flex justify-content-around">
+            <div v-if="profile.email" class="d-flex align-items-center">
+              <a
+                :href="`mailto: ${profile.email}`"
+                class="mdi mdi-email fs-1 selectable text-primary"
+                :title="profile.email"
+              ></a>
+            </div>
+            <div v-if="profile.resume" class="py-2">
+              <a :href="profile.resume">
+                <img
+                  src="../assets/img/resume.png"
+                  class="icon selectable ps-1"
+                  :title="profile.resume"
+                  alt=""
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
