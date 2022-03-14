@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+    <div class="navbar-brand d-flex selectable btn" @click="goTo">
       <div class="d-flex flex-column align-items-center">
         <img
           class="rounded-circle img-small"
@@ -10,7 +10,7 @@
         />
       </div>
       <h1 class="ps-2">Network</h1>
-    </router-link>
+    </div>
     <button
       class="navbar-toggler"
       type="button"
@@ -50,21 +50,6 @@
         </button>
       </form>
       <span class="navbar-text">
-        <!-- <button
-          class="
-            btn
-            selectable
-            text-success
-            lighten-30
-            text-uppercase
-            my-2 my-lg-0
-          "
-          @click="login"
-          v-if="!user.isAuthenticated"
-        >
-          Login
-        </button> -->
-
         <div class="dropdown my-2 my-lg-0" v-if="user.isAuthenticated">
           <div
             class="dropdown-toggle selectable"
@@ -111,7 +96,6 @@
 import { AuthService } from "../services/AuthService";
 import { AppState } from "../AppState";
 import { computed, ref } from "vue";
-import { postsService } from "../services/PostsService";
 import { useRouter } from "vue-router";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
@@ -125,17 +109,18 @@ export default {
       user: computed(() => AppState.user),
       async search() {
         try {
-          await postsService.getPosts(editable.value);
-          router.push({ name: "Search" });
+          AppState.searchTerm = editable.value;
+          router.push({ name: "Home" });
           editable.value = "";
         } catch (error) {
           logger.error(error);
           Pop.toast(error.message, "error");
         }
       },
-      // async login() {
-      //   AuthService.loginWithPopup();
-      // },
+      goTo() {
+        AppState.searchTerm = "";
+        router.push({ name: "Home" });
+      },
       async logout() {
         AuthService.logout({ returnTo: window.location.origin });
       },

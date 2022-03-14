@@ -4,6 +4,7 @@ import { api } from "./AxiosService"
 
 class PostsService {
   async getPosts(query) {
+    AppState.searchTerm = query
     const res = await api.get('api/posts', { params: { query } })
     logger.log('[getPosts]', res.data)
     AppState.postsObject = res.data

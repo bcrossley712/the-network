@@ -8,4 +8,5 @@ export const AppState = reactive({
   postsObject: {},
   posts: [],
   billboards: [],
+  searchTerm: ''
 })

@@ -23,7 +23,7 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState";
-import { onMounted } from "@vue/runtime-core";
+import { watchEffect } from "@vue/runtime-core";
 import { postsService } from "../services/PostsService";
 import { billboardsService } from "../services/BillboardsService";
 import { logger } from "../utils/Logger";
@@ -31,9 +31,9 @@ import Pop from "../utils/Pop";
 export default {
   name: "Home",
   setup() {
-    onMounted(async () => {
+    watchEffect(async () => {
       try {
-        await postsService.getPosts();
+        await postsService.getPosts(AppState.searchTerm);
         await billboardsService.getBillboards();
       } catch (error) {
         logger.error(error);
@@ -44,14 +44,6 @@ export default {
       postsObject: computed(() => AppState.postsObject),
       posts: computed(() => AppState.posts),
       billboards: computed(() => AppState.billboards),
-      async changePage(num) {
-        try {
-          await postsService.changePage(num);
-        } catch (error) {
-          logger.error(error);
-          Pop.toast(error.message, "error");
-        }
-      },
     };
   },
 };

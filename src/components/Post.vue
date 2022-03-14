@@ -10,7 +10,7 @@
         />
         <div class="p-2 ms-3">
           <b class="mb-1 text-break">{{ post.creator?.name }}</b>
-          <p class="mt-1">{{ date }} {{ post.graduated }}</p>
+          <p class="mt-1">{{ date }}</p>
         </div>
       </div>
       <div class="mx-2">
@@ -32,21 +32,28 @@
       <i
         v-if="likeId"
         @click="submitLike"
-        class="mdi mdi-heart text-danger selectable"
+        class="mdi mdi-heart text-danger selectable pe-2"
       ></i>
       <i
         v-else
         @click="submitLike"
-        class="mdi mdi-heart-outline selectable"
+        class="mdi mdi-heart-outline selectable pe-2"
       ></i>
-      <p class="ps-2">{{ post.likes.length }}</p>
+      <div class="likes">
+        {{ post.likes.length }}
+        <span v-if="post.likes.length > 0" class="likestext">
+          <ul v-for="(l, i) in post.likes" :key="l[i]">
+            <li>{{ l.name }}</li>
+          </ul>
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import { computed, reactive, ref } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
@@ -117,5 +124,37 @@ export default {
 .img-small {
   height: 80px;
   width: 80px;
+}
+.likes {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+.likes .likestext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #242222;
+  color: #fff;
+  text-align: start;
+  padding: 5px 0;
+  border-radius: 6px;
+  top: 100%;
+  left: 50%;
+  margin-left: -100px;
+  position: absolute;
+  z-index: 1;
+}
+.likes:hover .likestext {
+  visibility: visible;
+}
+.likes .likestext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #242222 transparent;
 }
 </style>
